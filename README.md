@@ -188,3 +188,10 @@ powered by
 Unfortunately this would result in a failure when you are on free tier with the
 limit of one machine per one app. So for the purpose of this exercise, simply
 destroying and deploying again would be a solution to that.
+
+### Build Time Might Not Be Super Optimal
+
+Although [setup-earthly](https://github.com/marketplace/actions/setup-earthly)
+takes care of caching, the current set up might be less optimal than using the
+bare GitHub Actions. But I believe further optimization should be possible.
+Anyhow currently it takes about 4-5 minutes to complete the entire job.
