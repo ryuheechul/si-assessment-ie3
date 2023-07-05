@@ -95,19 +95,6 @@ frontend-amd64:
   FROM --platform=linux/amd64 ../frontend+image
   SAVE IMAGE frontend:latest_linux_amd64
 
-build-debug:
-  FROM +cdktf-synth
-  ARG subcommand=diff
-  ARG AWS_REGION
-  ARG AWS_S3_ENDPOINT
-
-  WITH DOCKER \
-    --load earthly_cdktf:latest=+cdktf \
-    --load backend:latest_linux_amd64=+backend-amd64 \
-    --load frontend:latest_linux_amd64=+frontend-amd64
-    RUN docker inspect backend:latest_linux_amd64 && printenv
-  END
-
 cdktf-run:
   FROM +cdktf-synth
   ARG subcommand=diff
@@ -124,9 +111,6 @@ cdktf-run:
       --secret AWS_SECRET_ACCESS_KEY \
       docker-compose -f docker-compose.cdktf.yml run --rm cdktf $subcommand --auto-approve
   END
-
-debug:
-  BUILD +build-debug
 
 diff:
   BUILD +cdktf-run --subcommand=diff
